@@ -12,7 +12,7 @@ public class game_cooking extends JFrame implements ActionListener {
 
     public game_cooking() {
         setTitle("Cooking Game");
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -20,6 +20,7 @@ public class game_cooking extends JFrame implements ActionListener {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         add(titleLabel, BorderLayout.NORTH);
+        // setResizable(false);
 
         startButton = new JButton("<START>");
         startButton.addActionListener(this);
@@ -27,6 +28,13 @@ public class game_cooking extends JFrame implements ActionListener {
 
         cookingArea = new JTextArea();
         cookingArea.setFont(new Font("Arial", Font.BOLD, 48)); 
+        cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        // cookingArea.setText("Geeno");
+        // cookingArea.setOpaque(true);
+
+        // cookingArea.setLayout(new BorderLayout());
+        // cookingArea.add(cookingArea);
+        // frame.add(cookingArea);
         cookingArea.setEditable(false); 
         cookingArea.setOpaque(false); 
         cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
@@ -81,11 +89,19 @@ public class game_cooking extends JFrame implements ActionListener {
                 }
                 
                 SwingUtilities.invokeLater(() -> {
-    
+                    getContentPane().removeAll();
+                    revalidate();
+                    repaint();
                     // show order
-                    cookingArea.setText(MenuGenerator.generateMenu());
-                    cookingArea.setFont(new Font("Arial", Font.PLAIN, 42)); 
-
+                    // cookingArea.setText(MenuGenerator.generateMenu());
+                    JLabel customerOrder = new JLabel();
+                    customerOrder.setText(MenuGenerator.generateMenu());
+                    customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
+                    cookingArea.add(customerOrder);     
+                    JScrollPane scrollPane = new JScrollPane(customerOrder);
+                    scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
+                    add(scrollPane, BorderLayout.CENTER);
+                    // cookingArea.setFont(new Font("Arial", Font.PLAIN, 42)); 
                     
                     // "Next" bttn
                     JButton nextButton = new JButton("Next");
@@ -110,7 +126,7 @@ public class game_cooking extends JFrame implements ActionListener {
         repaint();
 
         
-        JLabel chooseDoughLabel = new JLabel("choose Dough");
+        JLabel chooseDoughLabel = new JLabel("select Dough kub ;-;");
         chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(chooseDoughLabel, BorderLayout.NORTH);
 
@@ -198,9 +214,29 @@ public class game_cooking extends JFrame implements ActionListener {
     }
 
     private void generateNextOrder() {
-        cookingArea.setText(MenuGenerator.generateMenu());
+        SwingUtilities.invokeLater(() -> {
+            getContentPane().removeAll();
+            revalidate();
+            repaint();
+     
+            // cookingArea.setText(MenuGenerator.generateMenu());
+            // cookingArea.setFont((new Font("Arial", Font.PLAIN, 42)));
+            JLabel customerOrder = new JLabel();
+            customerOrder.setText(MenuGenerator.generateMenu());
+            customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
+            add(customerOrder,BorderLayout.NORTH);       
+            JScrollPane scrollPane = new JScrollPane(customerOrder);
+            scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
+            add(scrollPane, BorderLayout.CENTER);
+            // "Next" bttn
+            JButton nextButton = new JButton("Next");
+            nextButton.addActionListener(e -> {
+                selectDough();
+            });
+            add(nextButton, BorderLayout.SOUTH);
+            revalidate();
+        });
     }
-    
 
     private void bakePizza(String doughType, ArrayList<String> toppingTypes) {
         if (!toppingTypes.isEmpty()) {
@@ -224,8 +260,8 @@ public class game_cooking extends JFrame implements ActionListener {
             JButton cookButton = new JButton("Bake Pizza");
             cookButton.addActionListener(e -> {
                 generateNextOrder();
-                selectDough();
-                controller.restartGame(); 
+                // selectDough();
+                // controller.restartGame(); 
             });
             add(cookButton, BorderLayout.SOUTH);
     
