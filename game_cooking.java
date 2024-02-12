@@ -8,6 +8,7 @@ public class game_cooking extends JFrame implements ActionListener {
     private JButton startButton;
     private JTextArea cookingArea;
     private GameController controller;
+    public static String save_select = "";
 
 
     public game_cooking() {
@@ -96,6 +97,7 @@ public class game_cooking extends JFrame implements ActionListener {
                     // cookingArea.setText(MenuGenerator.generateMenu());
                     JLabel customerOrder = new JLabel();
                     customerOrder.setText(MenuGenerator.generateMenu());
+                    System.out.println(MenuGenerator.getLastGeneratedMenu());
                     customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
                     cookingArea.add(customerOrder);     
                     JScrollPane scrollPane = new JScrollPane(customerOrder);
@@ -126,24 +128,24 @@ public class game_cooking extends JFrame implements ActionListener {
         repaint();
 
         
-        JLabel chooseDoughLabel = new JLabel("select Dough kub ;-;");
+        JLabel chooseDoughLabel = new JLabel("select dough ");
         chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(chooseDoughLabel, BorderLayout.NORTH);
 
         
-        JButton thickDoughButton = new JButton("thick Dough");
-        JButton thinDoughButton = new JButton("thin Dough");
+        JButton thickDoughButton = new JButton("Thick dough");
+        JButton thinDoughButton = new JButton("Thin dough");
 
         // ActionListener "thick Dough"
         thickDoughButton.addActionListener(e -> {
             
-            selectTopping("thick Dough");
+            selectTopping("Thick dough");
         });
 
         // ActionListener "thin Dough"
         thinDoughButton.addActionListener(e -> {
             
-            selectTopping("thin Dough");
+            selectTopping("Thin dough");
         });
 
         JPanel buttonPanel = new JPanel();
@@ -247,29 +249,39 @@ public class game_cooking extends JFrame implements ActionListener {
             JLabel bakePizzaLabel = new JLabel("Bake Pizza");
             bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
             add(bakePizzaLabel, BorderLayout.NORTH);
+
+            save_select = doughType + " ";
     
             JTextArea selectedIngredientsTextArea = new JTextArea();
             selectedIngredientsTextArea.append("Dough: " + doughType + "\n");
             selectedIngredientsTextArea.append("Toppings: ");
             for (String topping : toppingTypes) {
-                selectedIngredientsTextArea.append(topping + ", ");
+                selectedIngredientsTextArea.append(topping + " ");
+                save_select += toppingTypes + " ";
             }
+            System.out.println(save_select);
             selectedIngredientsTextArea.setEditable(false);
             add(selectedIngredientsTextArea, BorderLayout.CENTER);
     
             JButton cookButton = new JButton("Bake Pizza");
             cookButton.addActionListener(e -> {
-                generateNextOrder();
-                // selectDough();
-                // controller.restartGame(); 
+                PizzaValidator pizzaValidator = new PizzaValidator(doughType, toppingTypes, MenuGenerator.getLastGeneratedMenu());
+                if (!pizzaValidator.validatePizza()) {
+                    JOptionPane.showMessageDialog(this, "Incorrect Pizza! Game Over!");
+                    controller.restartGame(); // Restart the game if pizza is incorrect
+                } else {
+                    generateNextOrder(); // Generate next order
+                    selectDough(); // Call selectDough() to continue the process
+                }
             });
             add(cookButton, BorderLayout.SOUTH);
-    
+
             revalidate();
         } else {
             JOptionPane.showMessageDialog(this, "Please choose at least one topping.");
         }
-    }    
+    }
+    
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
