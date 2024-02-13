@@ -54,23 +54,23 @@ public class game_cooking extends JFrame implements ActionListener {
     }
 
     private void showMenu() {
-        HowtoPlay menuSelectionGUI = new HowtoPlay();
-        menuSelectionGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        HowtoPlay howto = new HowtoPlay();
+        howto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        menuSelectionGUI.addWindowListener(new WindowAdapter() {
+        howto.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 startGame(); // start countdown
             }
         });
         
-        menuSelectionGUI.setVisible(true);
+        howto.setVisible(true);
     }
 
     void startGame() {
         cookingArea.setText(""); // Clear text
         
-        // hide "Start"
+        // hide "<Start>"
         startButton.setVisible(false);
     
         String[] countdown = {"3", "2", "1", "Start!"," "};
@@ -90,25 +90,28 @@ public class game_cooking extends JFrame implements ActionListener {
                 }
                 
                 SwingUtilities.invokeLater(() -> {
+
+                    //Clear
                     getContentPane().removeAll();
                     revalidate();
                     repaint();
+
                     // show order
                     // cookingArea.setText(MenuGenerator.generateMenu());
-                    JLabel customerOrder = new JLabel();
-                    customerOrder.setText(MenuGenerator.generateMenu());
-                    System.out.println(MenuGenerator.getLastGeneratedMenu());
-                    customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
-                    cookingArea.add(customerOrder);     
-                    JScrollPane scrollPane = new JScrollPane(customerOrder);
+                    JLabel Order = new JLabel();
+                    Order.setText(Customer.generateMenu());
+                    System.out.println(Customer.Menu_for_check());
+                    Order.setFont(new Font("Arial", Font.PLAIN, 42));
+
+                    cookingArea.add(Order);     
+                    JScrollPane scrollPane = new JScrollPane(Order);
                     scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
                     add(scrollPane, BorderLayout.CENTER);
-                    // cookingArea.setFont(new Font("Arial", Font.PLAIN, 42)); 
                     
                     // "Next" bttn
                     JButton nextButton = new JButton("Next");
+                    //ActionListener
                     nextButton.addActionListener(e -> {
-    
                         selectDough();;
                     });
                     add(nextButton, BorderLayout.SOUTH);
@@ -132,26 +135,26 @@ public class game_cooking extends JFrame implements ActionListener {
         chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(chooseDoughLabel, BorderLayout.NORTH);
 
-        
-        JButton thickDoughButton = new JButton("Thick dough");
-        JButton thinDoughButton = new JButton("Thin dough");
+
+        JButton thickButton = new JButton("Thick dough");
+        JButton thinButton = new JButton("Thin dough");
 
         // ActionListener "thick Dough"
-        thickDoughButton.addActionListener(e -> {
+        thickButton.addActionListener(e -> {
             
             selectTopping("Thick dough");
         });
 
         // ActionListener "thin Dough"
-        thinDoughButton.addActionListener(e -> {
+        thinButton.addActionListener(e -> {
             
             selectTopping("Thin dough");
         });
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 2));
-        buttonPanel.add(thickDoughButton);
-        buttonPanel.add(thinDoughButton);
+        buttonPanel.add(thickButton);
+        buttonPanel.add(thinButton);
         add(buttonPanel, BorderLayout.CENTER);
 
         revalidate();
@@ -189,42 +192,41 @@ public class game_cooking extends JFrame implements ActionListener {
 
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e -> {
-            ArrayList<String> selectedToppings = new ArrayList<>();
+
+            ArrayList<String> AListToppings = new ArrayList<>();
             if (cheeseCheckbox.isSelected()) {
-                selectedToppings.add("Cheese");
+                AListToppings.add("Cheese");
             }
             if (pineappleCheckbox.isSelected()) {
-                selectedToppings.add("Pineapple");
+                AListToppings.add("Pineapple");
             }
             if (mushroomCheckbox.isSelected()) {
-                selectedToppings.add("Mushroom");
+                AListToppings.add("Mushroom");
             }
             if (hamCheckbox.isSelected()) {
-                selectedToppings.add("Ham");
+                AListToppings.add("Ham");
             }
             if (seafoodCheckbox.isSelected()) {
-                selectedToppings.add("Seafood");
+                AListToppings.add("Seafood");
             }
             if (baconCheckbox.isSelected()) {
-                selectedToppings.add("Bacon");
+                AListToppings.add("Bacon");
             }
-            bakePizza(doughType, selectedToppings);
+            bakePizza(doughType, AListToppings);
         });
         add(nextButton, BorderLayout.SOUTH);
 
         revalidate();
     }
 
-    private void generateNextOrder() {
+    private void NextOrder() {
         SwingUtilities.invokeLater(() -> {
             getContentPane().removeAll();
             revalidate();
             repaint();
      
-            // cookingArea.setText(MenuGenerator.generateMenu());
-            // cookingArea.setFont((new Font("Arial", Font.PLAIN, 42)));
             JLabel customerOrder = new JLabel();
-            customerOrder.setText(MenuGenerator.generateMenu());
+            customerOrder.setText(Customer.generateMenu());
             customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
             add(customerOrder,BorderLayout.NORTH);       
             JScrollPane scrollPane = new JScrollPane(customerOrder);
@@ -240,8 +242,8 @@ public class game_cooking extends JFrame implements ActionListener {
         });
     }
 
-    private void bakePizza(String doughType, ArrayList<String> toppingTypes) {
-        if (!toppingTypes.isEmpty()) {
+    private void bakePizza(String dough, ArrayList<String> topping) {
+        if (!topping.isEmpty()) {
             getContentPane().removeAll();
             revalidate();
             repaint();
@@ -249,28 +251,24 @@ public class game_cooking extends JFrame implements ActionListener {
             JLabel bakePizzaLabel = new JLabel("Bake Pizza");
             bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
             add(bakePizzaLabel, BorderLayout.NORTH);
-
-            save_select = doughType + " ";
     
             JTextArea selectedIngredientsTextArea = new JTextArea();
-            selectedIngredientsTextArea.append("Dough: " + doughType + "\n");
+            selectedIngredientsTextArea.append("Dough: " + dough + "\n");
             selectedIngredientsTextArea.append("Toppings: ");
-            for (String topping : toppingTypes) {
-                selectedIngredientsTextArea.append(topping + " ");
-                save_select += toppingTypes + " ";
+            for (String toppings : topping) {
+                selectedIngredientsTextArea.append(toppings + " ");
             }
-            System.out.println(save_select);
             selectedIngredientsTextArea.setEditable(false);
             add(selectedIngredientsTextArea, BorderLayout.CENTER);
     
             JButton cookButton = new JButton("Bake Pizza");
             cookButton.addActionListener(e -> {
-                PizzaValidator pizzaValidator = new PizzaValidator(doughType, toppingTypes, MenuGenerator.getLastGeneratedMenu());
+                PizzaValidator pizzaValidator = new PizzaValidator(dough, topping, Customer.Menu_for_check());
                 if (!pizzaValidator.validatePizza()) {
                     JOptionPane.showMessageDialog(this, "Incorrect Pizza! Game Over!");
                     controller.restartGame(); // Restart the game if pizza is incorrect
                 } else {
-                    generateNextOrder(); // Generate next order
+                    NextOrder(); // Generate next order
                     selectDough(); // Call selectDough() to continue the process
                 }
             });
