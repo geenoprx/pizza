@@ -9,7 +9,7 @@ public class PizzaValidator {
         this.selectedDough = selectedDough;
         this.selectedToppings = selectedToppings;
         this.generatedPizza = generatedPizza;
-        System.out.println("hello pizzaValidation"+generatedPizza);
+        
     }
 
     public boolean validatePizza() {
@@ -21,7 +21,7 @@ public class PizzaValidator {
             return false;
         }
 
-        //check dough
+        //check toppings
         for (int i = 1; i < generatedPizzaIngredients.length; i++) {
             if(!(selectedToppings.contains(generatedPizzaIngredients[i]))){
                 return false ;

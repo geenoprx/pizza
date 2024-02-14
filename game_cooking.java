@@ -99,7 +99,7 @@ public class game_cooking extends JFrame implements ActionListener {
                     // show order
                     // cookingArea.setText(MenuGenerator.generateMenu());
                     JLabel Order = new JLabel();
-                    Order.setText(Customer.generateMenu());
+                    Order.setText(Customer.MenuPizza4());
                     System.out.println(Customer.Menu_for_check());
                     Order.setFont(new Font("Arial", Font.PLAIN, 42));
 
@@ -226,7 +226,7 @@ public class game_cooking extends JFrame implements ActionListener {
             repaint();
      
             JLabel customerOrder = new JLabel();
-            customerOrder.setText(Customer.generateMenu());
+            customerOrder.setText(Customer.MenuPizza4());
             customerOrder.setFont(new Font("Arial", Font.PLAIN, 42));
             add(customerOrder,BorderLayout.NORTH);       
             JScrollPane scrollPane = new JScrollPane(customerOrder);
