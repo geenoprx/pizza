@@ -70,34 +70,5 @@ public class Customer {
     }
 
     // "Cheese", "Mushroom", "Ham","Bacon"
-
-    public static String MenuPizza4() {
-        String[] Hawaiian = {"Cheese", "Pineapple", "Ham","Bacon"};
-        String[] Seafood_Cocktail = {"Cheese", "Pineapple", "Ham", "Seafood"};
-        String[] Super_Deluxe = {"Cheese", "Mushroom", "Ham","Bacon"};
-        String[] Seafood_Paradise = {"Cheese", "Pineapple", "Mushroom", "Seafood",};
-        String[] Parts = Menu_for_check().split(" ");
-
-        Set<String> selectedToppings = new HashSet<>(Arrays.asList(Parts).subList(1, 5));
-
-        if (Arrays.asList(Hawaiian).containsAll(selectedToppings)) {
-            return "Hawaiian";
-        } else if (Arrays.asList(Seafood_Cocktail).containsAll(selectedToppings)) {
-            return "Seafood Cocktail";
-        } else if (Arrays.asList(Super_Deluxe).containsAll(selectedToppings)) {
-            return "Super Deluxe";
-        } else if (Arrays.asList(Seafood_Paradise).containsAll(selectedToppings)) {
-            return "Seafood Paradise";
-        } else {
-            return generateMenu();
-        }
-
-     }
-
-    public static void main(String[] args) {
-        System.out.println(generateMenu());
-        System.out.println(Menu_for_check());
-        // System.out.println(MenuPizza4());
-    }
     
 }
