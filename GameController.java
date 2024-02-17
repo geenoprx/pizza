@@ -9,9 +9,9 @@ public class GameController {
     }
 
     public void restartGame() {
-    SwingUtilities.invokeLater(() -> {
-        game.startGame();
+        SwingUtilities.invokeLater(() -> {
+            game.startGame();
         });
-    }
+    }    
 
 }

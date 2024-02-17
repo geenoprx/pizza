@@ -3,13 +3,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+
 public class game_cooking extends JFrame implements ActionListener {
     private JLabel titleLabel;
     private JButton startButton;
     private JTextArea cookingArea;
     private GameController controller;
     public static String save_select = "";
-
+    private int correctAns = 0; 
 
     public game_cooking() {
         setTitle("Cooking Game");
@@ -17,8 +18,8 @@ public class game_cooking extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        titleLabel = new JLabel("Welcome to Cooking Game!");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel = new JLabel("Welcome to Pizza Pick Me Game!");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         add(titleLabel, BorderLayout.NORTH);
         // setResizable(false);
@@ -30,12 +31,7 @@ public class game_cooking extends JFrame implements ActionListener {
         cookingArea = new JTextArea();
         cookingArea.setFont(new Font("Arial", Font.BOLD, 48)); 
         cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
-        // cookingArea.setText("Geeno");
-        // cookingArea.setOpaque(true);
-
-        // cookingArea.setLayout(new BorderLayout());
-        // cookingArea.add(cookingArea);
-        // frame.add(cookingArea);
+        
         cookingArea.setEditable(false); 
         cookingArea.setOpaque(false); 
         cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
@@ -67,7 +63,7 @@ public class game_cooking extends JFrame implements ActionListener {
         howto.setVisible(true);
     }
 
-    void startGame() {
+    public void startGame() {
         cookingArea.setText(""); // Clear text
         
         // hide "<Start>"
@@ -136,8 +132,17 @@ public class game_cooking extends JFrame implements ActionListener {
         add(chooseDoughLabel, BorderLayout.NORTH);
 
 
-        JButton thickButton = new JButton("Thick dough");
-        JButton thinButton = new JButton("Thin dough");
+        ImageIcon thickIcon = new ImageIcon("img/Thick.PNG");
+        JButton thickButton = new JButton(thickIcon);
+        thickButton.setText("Thick dough");
+
+        ImageIcon thinIcon = new ImageIcon("img/Thin.PNG");
+        JButton thinButton = new JButton(thinIcon);
+        thinButton.setText("Thin dough");
+
+        Color brownColor = new Color(100, 70, 29);
+        thickButton.setBackground(brownColor);
+        thinButton.setBackground(brownColor);
 
         // ActionListener "thick Dough"
         thickButton.addActionListener(e -> {
@@ -172,44 +177,64 @@ public class game_cooking extends JFrame implements ActionListener {
         chooseToppingLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(chooseToppingLabel, BorderLayout.NORTH);
 
-        
-        JCheckBox cheeseCheckbox = new JCheckBox("Cheese");
-        JCheckBox pineappleCheckbox = new JCheckBox("Pineapple");
-        JCheckBox mushroomCheckbox = new JCheckBox("Mushroom");
-        JCheckBox hamCheckbox = new JCheckBox("Ham");
-        JCheckBox seafoodCheckbox = new JCheckBox("Seafood");
-        JCheckBox baconCheckbox = new JCheckBox("Bacon");
+        ImageIcon cheeseIcon = new ImageIcon("img/cheese.png");
+        ImageIcon pineappleIcon = new ImageIcon("img/pineapple.png");
+        ImageIcon mushroomIcon = new ImageIcon("img/mushroom.png");
+        ImageIcon hamIcon = new ImageIcon("img/ham.png");
+        ImageIcon seafoodIcon = new ImageIcon("img/seafood.png");
+        ImageIcon baconIcon = new ImageIcon("img/bacon.png");
 
-        JPanel checkboxPanel = new JPanel();
-        checkboxPanel.setLayout(new GridLayout(5, 1));
-        checkboxPanel.add(cheeseCheckbox);
-        checkboxPanel.add(pineappleCheckbox);
-        checkboxPanel.add(mushroomCheckbox);
-        checkboxPanel.add(hamCheckbox);
-        checkboxPanel.add(seafoodCheckbox);
-        checkboxPanel.add(baconCheckbox);
-        add(checkboxPanel, BorderLayout.CENTER);
+        Image cheeseImage = cheeseIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image pineappleImage = pineappleIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image mushroomImage = mushroomIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image hamImage = hamIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image seafoodImage = seafoodIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image baconImage = baconIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
+        
+        JToggleButton cheeseButton = new JToggleButton(new ImageIcon(cheeseImage));
+        JToggleButton pineappleButton = new JToggleButton(new ImageIcon(pineappleImage));
+        JToggleButton mushroomButton = new JToggleButton(new ImageIcon(mushroomImage));
+        JToggleButton hamButton = new JToggleButton(new ImageIcon(hamImage));
+        JToggleButton seafoodButton = new JToggleButton(new ImageIcon(seafoodImage));
+        JToggleButton baconButton = new JToggleButton(new ImageIcon(baconImage));
+
+        Color brownColor = new Color(100, 70, 29);
+        cheeseButton.setBackground(brownColor);
+        pineappleButton.setBackground(brownColor);
+        mushroomButton.setBackground(brownColor);
+        hamButton.setBackground(brownColor);
+        seafoodButton.setBackground(brownColor);
+        baconButton.setBackground(brownColor);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 3));
+        buttonPanel.add(cheeseButton);
+        buttonPanel.add(pineappleButton);
+        buttonPanel.add(mushroomButton);
+        buttonPanel.add(hamButton);
+        buttonPanel.add(seafoodButton);
+        buttonPanel.add(baconButton);
+        add(buttonPanel, BorderLayout.CENTER);
 
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e -> {
 
             ArrayList<String> AListToppings = new ArrayList<>();
-            if (cheeseCheckbox.isSelected()) {
+            if (cheeseButton.isSelected()) {
                 AListToppings.add("Cheese");
             }
-            if (pineappleCheckbox.isSelected()) {
+            if (pineappleButton.isSelected()) {
                 AListToppings.add("Pineapple");
             }
-            if (mushroomCheckbox.isSelected()) {
+            if (mushroomButton.isSelected()) {
                 AListToppings.add("Mushroom");
             }
-            if (hamCheckbox.isSelected()) {
+            if (hamButton.isSelected()) {
                 AListToppings.add("Ham");
             }
-            if (seafoodCheckbox.isSelected()) {
+            if (seafoodButton.isSelected()) {
                 AListToppings.add("Seafood");
             }
-            if (baconCheckbox.isSelected()) {
+            if (baconButton.isSelected()) {
                 AListToppings.add("Bacon");
             }
             bakePizza(doughType, AListToppings);
@@ -251,15 +276,22 @@ public class game_cooking extends JFrame implements ActionListener {
             JLabel bakePizzaLabel = new JLabel("Bake Pizza");
             bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
             add(bakePizzaLabel, BorderLayout.NORTH);
-    
-            JTextArea selectedIngredientsTextArea = new JTextArea();
-            selectedIngredientsTextArea.append("Dough: " + dough + "\n");
-            selectedIngredientsTextArea.append("Toppings: ");
-            for (String toppings : topping) {
-                selectedIngredientsTextArea.append(toppings + " ");
-            }
-            selectedIngredientsTextArea.setEditable(false);
-            add(selectedIngredientsTextArea, BorderLayout.CENTER);
+
+            ImageIcon bake = new ImageIcon("img/bakepizza.PNG");
+            Image bakeImage = bake.getImage(); 
+
+            JLabel label = new JLabel(bake);
+            add(label, BorderLayout.CENTER); // add JLabel in BorderLayout,CENTER
+
+            addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    int width = getWidth();
+                    int height = getHeight();
+                    Image bakePIZZAImage = bakeImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                    ImageIcon bakeIcon = new ImageIcon(bakePIZZAImage);
+                    label.setIcon(bakeIcon); // update size JFrame
+                }
+            });
     
             JButton cookButton = new JButton("Bake Pizza");
             cookButton.addActionListener(e -> {
@@ -267,17 +299,24 @@ public class game_cooking extends JFrame implements ActionListener {
                 if (!pizzaValidator.validatePizza()) {
                     JOptionPane.showMessageDialog(this, "Incorrect Pizza! Game Over!");
                     controller.restartGame(); // Restart the game if pizza is incorrect
+                    correctAns = 0; // reset correctAns = 0
+                    
                 } else {
-                    NextOrder(); // Generate next order
-                    selectDough(); // Call selectDough() to continue the process
+                    correctAns++; 
+                    if (correctAns == 5) {
+                        JOptionPane.showMessageDialog(this, "Congratulations! You got 3 star!");
+                    } else {
+                        NextOrder(); // Generate next order
+                        selectDough(); // Call selectDough() to continue the process
+                    }
                 }
             });
             add(cookButton, BorderLayout.SOUTH);
 
             revalidate();
-        } else {
-            JOptionPane.showMessageDialog(this, "Please choose at least one topping.");
-        }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please choose at least one topping.");
+            }
     }
     
     
