@@ -11,7 +11,8 @@ public class HowtoPlay extends JFrame implements ActionListener {
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
-
+        setLocationRelativeTo(null);
+        setResizable(false);
         JLabel menuLabel = new JLabel("Menu Pizza");
         menuLabel.setFont(new Font("Arial", Font.BOLD, 16));
         menuLabel.setHorizontalAlignment(JLabel.CENTER);

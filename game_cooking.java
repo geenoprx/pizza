@@ -5,73 +5,91 @@ import java.util.*;
 
 
 public class game_cooking extends JFrame implements ActionListener {
+    private JFrame frame ;
     private JLabel titleLabel;
-    private JButton butt;
+    private JButton buttonStart;
     private JLabel backgroundLabel;
+    private JLabel backgroundOrder ; 
     private JLabel cookingArea;
+    private Container container ;
     private GameController controller;
     public static String save_select = "";
     private int correctAns = 0; 
+    private int WIDTH = 800;
+    private int HEIGHT = 600 ; 
 
     public game_cooking() {
-        setTitle("Cooking Game");
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
+        frame = new JFrame();
+        frame.setTitle("Cooking Game");
+        container = frame.getContentPane();
         //background
         ImageIcon imageIcon = new ImageIcon("img/LASTNAME.JPG"); 
         backgroundLabel = new JLabel();
         backgroundLabel.setIcon(imageIcon);
-
-        Image scaledImage = imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        backgroundLabel.setBounds(0, 0, WIDTH,HEIGHT);
+        backgroundLabel.setLayout(null);
+        frame.add(backgroundLabel);
+        frame.setBounds(0, 0, 800, 600);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);//let the background in the middle
+        frame.setVisible(true);
+        Image scaledImage = imageIcon.getImage().getScaledInstance(frame.getWidth(), frame.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         backgroundLabel.setIcon(scaledImageIcon);
-
-        setContentPane(backgroundLabel);
-        //setContentPane(loco);
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                Image scaledImage = imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-                backgroundLabel.setIcon(scaledImageIcon);
-            }
-        });
-
-        //start button
         ImageIcon button = new ImageIcon("img/start.PNG");
-
         Image scaledButton = button.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
-         button = new ImageIcon(scaledButton);
-        butt = new JButton(button);
-        
-        butt.setBorderPainted(false);
-        butt.setContentAreaFilled(false);
-        butt.setFocusPainted(false);
-        butt.addActionListener(this);
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(butt, BorderLayout.SOUTH);
-        
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                int size = Math.min(getWidth(), getHeight());
-                butt.setPreferredSize(new Dimension(size, size));
-                revalidate();
-            }
-        });
+        button = new ImageIcon(scaledButton);
+        buttonStart = new JButton(button);       
+        buttonStart.setBorderPainted(false);
+        buttonStart.setContentAreaFilled(false);
 
-        JScrollPane scrollPane = new JScrollPane(cookingArea);
-        scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
-        add(scrollPane, BorderLayout.CENTER);
+        buttonStart.setBounds(WIDTH/2-100,HEIGHT/2-75,200,150);
+        backgroundLabel.add(buttonStart);
+        buttonStart.addActionListener(this);
+    //     setContentPane(backgroundLabel);
+    //     //setContentPane(loco);
+    //     addComponentListener(new ComponentAdapter() {
+    //         @Override
+    //         public void componentResized(ComponentEvent e) {
+    //             Image scaledImage = imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+    //             ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+    //             backgroundLabel.setIcon(scaledImageIcon);
+    //         }
+    //     });
 
-        controller = new GameController(this);
+    //     //start button
+    //     ImageIcon button = new ImageIcon("img/start.PNG");
+
+    //     Image scaledButton = button.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+    //      button = new ImageIcon(scaledButton);
+    //     butt = new JButton(button);
+        
+    //     butt.setBorderPainted(false);
+    //     butt.setContentAreaFilled(false);
+    //     butt.setFocusPainted(false);
+           
+    //     getContentPane().setLayout(new BorderLayout());
+    //     getContentPane().add(butt, BorderLayout.SOUTH);
+        
+    //     addComponentListener(new ComponentAdapter() {
+    //         public void componentResized(ComponentEvent e) {
+    //             int size = Math.min(getWidth(), getHeight());
+    //             butt.setPreferredSize(new Dimension(size, size));
+    //             revalidate();
+    //         }
+    //     });
+
+    //     JScrollPane scrollPane = new JScrollPane(cookingArea);
+    //     scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
+    //     add(scrollPane, BorderLayout.CENTER);
+
+    //     controller = new GameController(this);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == butt) {
+        if (e.getSource() == buttonStart) {
             showMenu();
-            
         }
     }
 
@@ -89,76 +107,46 @@ public class game_cooking extends JFrame implements ActionListener {
         howto.setVisible(true);
     }
 
-    public void startGame() {     
+    public void startGame() {
         // hide "<Start>"
-        butt.setVisible(false);
-    
+        // System.out.println("start");
+        buttonStart.setVisible(false);
         new Thread(new Runnable() {
             public void run() {
-
                 SwingUtilities.invokeLater(() -> {
-
+                    container.remove(backgroundLabel);
                     //Clear
-                    getContentPane().removeAll();
-                    revalidate();
-                    repaint();
+                    backgroundOrder = new JLabel();
+                    ImageIcon backgroundImageOrder = new ImageIcon("img/Background.jpg");
+                    Image scaledbackground = backgroundImageOrder.getImage().getScaledInstance(800,600, Image.SCALE_SMOOTH);
+                    ImageIcon imgOrder = new ImageIcon(scaledbackground);
+                    backgroundOrder = new JLabel(imgOrder);
 
-                    // show order
-                    // cookingArea.setText(MenuGenerator.generateMenu());
-
-                    // JPanel panel1 = new JPanel() {
-                    //     @Override
-                    //     protected void paintComponent(Graphics g) {
-                    //         super.paintComponent(g);
-                          
-                    //         ImageIcon backgroundImage = new ImageIcon("img/Background.jpg");
-                    //         Image image = backgroundImage.getImage();
-                    //         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-                    //     }
-                    // };
-                    // panel1.setLayout(new BorderLayout());
+                    backgroundOrder.setBounds(0, 0, WIDTH, HEIGHT);
                     
-                    JLabel Order = new JLabel(Customer.generateMenu());
-                    Order.setFont(new Font("Arial", Font.PLAIN, 42));
-                    Order.setHorizontalAlignment(JLabel.CENTER);
-                    Order.setVerticalAlignment(JLabel.CENTER);
-                    
-                    // panel1.add(Order, BorderLayout.CENTER);
 
-                    // ImageIcon button = new ImageIcon("img/NEXT.PNG");
-
-                    // Image scaledButton = button.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                    // button = new ImageIcon(scaledButton);
-                    // JButton nextButton = new JButton(button);
-                    
-                    // nextButton.setBorderPainted(false);
-                    // nextButton.setContentAreaFilled(false);
-                    // nextButton.setFocusPainted(false);
-                    // nextButton.addActionListener(e -> {
-                    //      selectDough();
-                    //     });
-                
-
-                    // JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                    // buttonPanel.add(nextButton);
-
-                    // add(buttonPanel, BorderLayout.SOUTH);
-                    // add(nextButton, BorderLayout.SOUTH);
-
-                    add(Order, BorderLayout.CENTER);
-                    
-                    // "Next" bttn
-                    JButton nextButton = new JButton("Next");
-
+                    frame.add(backgroundOrder);
+                    JButton nextButton = new JButton();
+                    ImageIcon button = new ImageIcon("img/NEXT.PNG");
+                    Image scaledButton = button.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+                    button = new ImageIcon(scaledButton);
+                    nextButton = new JButton(button);       
+                    nextButton.setBorderPainted(false);
+                    nextButton.setContentAreaFilled(false);
+                    nextButton.setBounds(WIDTH/2-100,HEIGHT-(250),200,150);
                     //ActionListener
+                    JLabel generateMenu = new JLabel(Customer.generateMenu());
+                    generateMenu.setFont(new Font("Arial", Font.PLAIN, 25));
+                    generateMenu.setBounds(120,HEIGHT/2-(HEIGHT/8) , WIDTH, HEIGHT/4);
+                    backgroundOrder.add(nextButton);
+                    backgroundOrder.add(generateMenu);
                     nextButton.addActionListener(e -> {
-                        selectDough();;
+                        selectDough();
+                        System.out.println("select");
                     });
-                    add(nextButton, BorderLayout.SOUTH);
-
-                    revalidate();
+                    frame.repaint();
                 });
-                
+
             }
         }).start();
     }
