@@ -6,8 +6,9 @@ import java.util.*;
 
 public class game_cooking extends JFrame implements ActionListener {
     private JLabel titleLabel;
-    private JButton startButton;
-    private JTextArea cookingArea;
+    private JButton butt;
+    private JLabel backgroundLabel;
+    private JLabel cookingArea;
     private GameController controller;
     public static String save_select = "";
     private int correctAns = 0; 
@@ -18,23 +19,47 @@ public class game_cooking extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        titleLabel = new JLabel("Welcome to Pizza Pick Me Game!");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        add(titleLabel, BorderLayout.NORTH);
-        // setResizable(false);
+        //background
+        ImageIcon imageIcon = new ImageIcon("img/LASTNAME.JPG"); 
+        backgroundLabel = new JLabel();
+        backgroundLabel.setIcon(imageIcon);
 
-        startButton = new JButton("<START>");
-        startButton.addActionListener(this);
-        add(startButton, BorderLayout.SOUTH);
+        Image scaledImage = imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+        backgroundLabel.setIcon(scaledImageIcon);
 
-        cookingArea = new JTextArea();
-        cookingArea.setFont(new Font("Arial", Font.BOLD, 48)); 
-        cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        setContentPane(backgroundLabel);
+        //setContentPane(loco);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Image scaledImage = imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+                backgroundLabel.setIcon(scaledImageIcon);
+            }
+        });
+
+        //start button
+        ImageIcon button = new ImageIcon("img/start.PNG");
+
+        Image scaledButton = button.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+         button = new ImageIcon(scaledButton);
+        butt = new JButton(button);
         
-        cookingArea.setEditable(false); 
-        cookingArea.setOpaque(false); 
-        cookingArea.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        butt.setBorderPainted(false);
+        butt.setContentAreaFilled(false);
+        butt.setFocusPainted(false);
+        butt.addActionListener(this);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(butt, BorderLayout.SOUTH);
+        
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int size = Math.min(getWidth(), getHeight());
+                butt.setPreferredSize(new Dimension(size, size));
+                revalidate();
+            }
+        });
 
         JScrollPane scrollPane = new JScrollPane(cookingArea);
         scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
@@ -44,8 +69,9 @@ public class game_cooking extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == startButton) {
+        if (e.getSource() == butt) {
             showMenu();
+            
         }
     }
 
@@ -63,28 +89,13 @@ public class game_cooking extends JFrame implements ActionListener {
         howto.setVisible(true);
     }
 
-    public void startGame() {
-        cookingArea.setText(""); // Clear text
-        
+    public void startGame() {     
         // hide "<Start>"
-        startButton.setVisible(false);
-    
-        String[] countdown = {"3", "2", "1", "Start!"," "};
+        butt.setVisible(false);
     
         new Thread(new Runnable() {
             public void run() {
-                for (int i = 0; i < countdown.length; i++) {
-                    final int index = i;
-                    try {
-                        Thread.sleep(1000); // - 1 second
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                    SwingUtilities.invokeLater(() -> {
-                        cookingArea.setText(countdown[index]); // Set text
-                    });
-                }
-                
+
                 SwingUtilities.invokeLater(() -> {
 
                     //Clear
@@ -94,25 +105,57 @@ public class game_cooking extends JFrame implements ActionListener {
 
                     // show order
                     // cookingArea.setText(MenuGenerator.generateMenu());
-                    JLabel Order = new JLabel();
-                    Order.setText(Customer.generateMenu());
-                    System.out.println(Customer.Menu_for_check());
-                    Order.setFont(new Font("Arial", Font.PLAIN, 42));
 
-                    cookingArea.add(Order);     
-                    JScrollPane scrollPane = new JScrollPane(Order);
-                    scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
-                    add(scrollPane, BorderLayout.CENTER);
+                    // JPanel panel1 = new JPanel() {
+                    //     @Override
+                    //     protected void paintComponent(Graphics g) {
+                    //         super.paintComponent(g);
+                          
+                    //         ImageIcon backgroundImage = new ImageIcon("img/Background.jpg");
+                    //         Image image = backgroundImage.getImage();
+                    //         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                    //     }
+                    // };
+                    // panel1.setLayout(new BorderLayout());
+                    
+                    JLabel Order = new JLabel(Customer.generateMenu());
+                    Order.setFont(new Font("Arial", Font.PLAIN, 42));
+                    Order.setHorizontalAlignment(JLabel.CENTER);
+                    Order.setVerticalAlignment(JLabel.CENTER);
+                    
+                    // panel1.add(Order, BorderLayout.CENTER);
+
+                    // ImageIcon button = new ImageIcon("img/NEXT.PNG");
+
+                    // Image scaledButton = button.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    // button = new ImageIcon(scaledButton);
+                    // JButton nextButton = new JButton(button);
+                    
+                    // nextButton.setBorderPainted(false);
+                    // nextButton.setContentAreaFilled(false);
+                    // nextButton.setFocusPainted(false);
+                    // nextButton.addActionListener(e -> {
+                    //      selectDough();
+                    //     });
+                
+
+                    // JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    // buttonPanel.add(nextButton);
+
+                    // add(buttonPanel, BorderLayout.SOUTH);
+                    // add(nextButton, BorderLayout.SOUTH);
+
+                    add(Order, BorderLayout.CENTER);
                     
                     // "Next" bttn
                     JButton nextButton = new JButton("Next");
+
                     //ActionListener
                     nextButton.addActionListener(e -> {
                         selectDough();;
                     });
                     add(nextButton, BorderLayout.SOUTH);
-                    
-                    
+
                     revalidate();
                 });
                 
@@ -128,17 +171,19 @@ public class game_cooking extends JFrame implements ActionListener {
 
         
         JLabel chooseDoughLabel = new JLabel("select dough ");
-        chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 30));
         add(chooseDoughLabel, BorderLayout.NORTH);
 
 
         ImageIcon thickIcon = new ImageIcon("img/Thick.PNG");
         JButton thickButton = new JButton(thickIcon);
         thickButton.setText("Thick dough");
+        thickButton.setForeground(Color.white);
 
         ImageIcon thinIcon = new ImageIcon("img/Thin.PNG");
         JButton thinButton = new JButton(thinIcon);
         thinButton.setText("Thin dough");
+        thinButton.setForeground(Color.white);
 
         Color brownColor = new Color(100, 70, 29);
         thickButton.setBackground(brownColor);
@@ -215,6 +260,41 @@ public class game_cooking extends JFrame implements ActionListener {
         buttonPanel.add(baconButton);
         add(buttonPanel, BorderLayout.CENTER);
 
+
+        // ImageIcon button = new ImageIcon("img/NEXT.PNG");
+
+        //             Image scaledButton = button.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        //             button = new ImageIcon(scaledButton);
+        //             JButton nextButton = new JButton(button);
+                    
+        //             nextButton.setBorderPainted(false);
+        //             nextButton.setContentAreaFilled(false);
+        //             nextButton.setFocusPainted(false);
+        //             nextButton.addActionListener(e -> {
+        //                 ArrayList<String> AListToppings = new ArrayList<>();
+        //     if (cheeseButton.isSelected()) {
+        //         AListToppings.add("Cheese");
+        //     }
+        //     if (pineappleButton.isSelected()) {
+        //         AListToppings.add("Pineapple");
+        //     }
+        //     if (mushroomButton.isSelected()) {
+        //         AListToppings.add("Mushroom");
+        //     }
+        //     if (hamButton.isSelected()) {
+        //         AListToppings.add("Ham");
+        //     }
+        //     if (seafoodButton.isSelected()) {
+        //         AListToppings.add("Seafood");
+        //     }
+        //     if (baconButton.isSelected()) {
+        //         AListToppings.add("Bacon");
+        //     }
+        //     bakePizza(doughType, AListToppings);
+        //                 });
+                
+        //             add(nextButton, BorderLayout.SOUTH);
+
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e -> {
 
@@ -273,9 +353,9 @@ public class game_cooking extends JFrame implements ActionListener {
             revalidate();
             repaint();
     
-            JLabel bakePizzaLabel = new JLabel("Bake Pizza");
-            bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            add(bakePizzaLabel, BorderLayout.NORTH);
+            // JLabel bakePizzaLabel = new JLabel("Bake Pizza");
+            // bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            // add(bakePizzaLabel, BorderLayout.NORTH);
 
             ImageIcon bake = new ImageIcon("img/bakepizza.PNG");
             Image bakeImage = bake.getImage(); 

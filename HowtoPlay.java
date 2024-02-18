@@ -4,8 +4,7 @@ import java.awt.event.*;
 
 public class HowtoPlay extends JFrame implements ActionListener {
     private JButton okButton;
-    private ImageIcon menu;
-
+    
     public HowtoPlay() {
         setTitle("Menu Selection");
         setSize(600, 400);
@@ -32,11 +31,6 @@ public class HowtoPlay extends JFrame implements ActionListener {
                 label.setIcon(newMenuIcon); // update size JFrame
             }
         });
-        // Image menuImage = menu.getImage();
-        // Image newMenuImage = menuImage.getScaledInstance(600, 400, Image.SCALE_SMOOTH); 
-        // ImageIcon newMenuIcon = new ImageIcon(newMenuImage); 
-        // JLabel label = new JLabel(newMenuIcon); 
-        // this.add(label); 
 
         okButton = new JButton("OK");
         okButton.addActionListener(this);
