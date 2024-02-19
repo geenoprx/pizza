@@ -20,7 +20,7 @@ public class Customer {
                 selectedToppings = new String[]{"Cheese", "Pineapple", "Ham", "Bacon"};
                 break;
             case 1:
-                selectedToppings = new String[]{"Cheese", "Pineapple", "Ham", "Seafood"};
+                selectedToppings = new String[]{"Cheese", "Pineapple", "Bacon", "Seafood"};
                 break;
             case 2:
                 selectedToppings = new String[]{"Cheese", "Mushroom", "Ham", "Bacon"};
@@ -38,7 +38,7 @@ public class Customer {
         String[] Part = topping_String.split(" ");
 
         String[] Hawaiian = {"Cheese", "Pineapple", "Ham","Bacon"};
-        String[] Seafood_Cocktail = {"Cheese", "Pineapple", "Ham", "Seafood"};
+        String[] Seafood_Cocktail = {"Cheese", "Pineapple", "Bacon", "Seafood"};
         String[] Super_Deluxe = {"Cheese", "Mushroom", "Ham","Bacon"};
         String[] Seafood_Paradise = {"Cheese", "Pineapple", "Mushroom", "Seafood",};
     
@@ -62,6 +62,9 @@ public class Customer {
         String[] menuParts = show_GenerateMenu.split(" ");
 
         return menuParts[0] +" " + menuParts[2] +" "+ menuParts[3] + " " + menuParts[3] + " " + menuParts[4];
+    }
+    public static void setString(){
+        show_GenerateMenu = "";
     }
     
 }
