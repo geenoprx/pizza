@@ -33,7 +33,7 @@ public class game_cooking extends JFrame implements ActionListener {
         backgroundLabel.setLayout(null);
         frame.add(backgroundLabel);
         frame.setBounds(0, 0, 800, 600);
-        // frame.setResizable(false);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);//let the background in the middle
         frame.setVisible(true);
@@ -253,7 +253,7 @@ public class game_cooking extends JFrame implements ActionListener {
             System.out.println("bakepizza");
             bakePizza(doughType, AListToppings);
         });
-        nextButton.setBounds(0, 552, WIDTH, 18);
+        nextButton.setBounds(0, 540, WIDTH, 25);
         nextButton.setFont(new Font("Arial", Font.BOLD, 18));
         emptyLabel.add(nextButton);
         frame.repaint();
@@ -310,12 +310,12 @@ public class game_cooking extends JFrame implements ActionListener {
             });
             
             JButton cookButton = new JButton("Bake Pizza");
-            cookButton.setBounds(0, 552, WIDTH, 18);
+            cookButton.setBounds(0, 540, WIDTH, 25);
             cookButton.addActionListener(e -> {
                 PizzaValidator pizzaValidator = new PizzaValidator(dough, topping, Customer.Menu_for_check());
                 if (!pizzaValidator.validatePizza()) {
                     JOptionPane.showMessageDialog(this, "Incorrect Pizza! Game Over!");
-                    // controller.restartGame(); // Restart the game if pizza is incorrect
+                    System.exit(0); ;// Restart the game if pizza is incorrect
                     correctAns = 0; // reset correctAns = 0
                     
                 } else {
