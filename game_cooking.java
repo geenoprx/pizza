@@ -6,15 +6,12 @@ import java.util.*;
 
 public class game_cooking extends JFrame implements ActionListener {
     private JFrame frame ;
-    private JLabel titleLabel;
     private JButton buttonStart;
     private JLabel backgroundLabel;
     private JLabel backgroundOrder ; 
-    private JLabel cookingArea;
     private JLabel selectDough;
     private JLabel emptyLabel ;
     private Container container ;
-    private GameController controller;
     private JLabel generateMenu;
     public static String save_select = "";
     private int correctAns = 0; 
@@ -65,7 +62,7 @@ public class game_cooking extends JFrame implements ActionListener {
         howto.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                startGame(); // start countdown
+                startGame(); // start 
             }
         });
         
@@ -74,7 +71,6 @@ public class game_cooking extends JFrame implements ActionListener {
 
     public void startGame() {
         // hide "<Start>"
-        // System.out.println("start");
         buttonStart.setVisible(false);
         new Thread(new Runnable() {
             public void run() {
@@ -99,7 +95,7 @@ public class game_cooking extends JFrame implements ActionListener {
                     nextButton.setBorderPainted(false);
                     nextButton.setContentAreaFilled(false);
                     nextButton.setBounds(WIDTH/2-100,HEIGHT-(250),200,150);
-                    //ActionListener
+
                     generateMenu = new JLabel(Customer.generateMenu());
                     generateMenu.setFont(new Font("Arial", Font.PLAIN, 25));
                     generateMenu.setBounds(120,HEIGHT/2-(HEIGHT/8) , WIDTH, HEIGHT/4);
@@ -118,44 +114,31 @@ public class game_cooking extends JFrame implements ActionListener {
 
     private void selectDough() {
         //Clear
-        System.out.println("hello in method");
         frame.remove(backgroundOrder);
         frame.repaint();
         selectDough = new JLabel(new ImageIcon("img/Background.jpg"));
         selectDough.setBounds(0, 0, WIDTH, HEIGHT);
         frame.add(selectDough);
-        // a.setBackground(brownColor);
+
         JLabel chooseDoughLabel = new JLabel("SELECT DOUGH ");
         chooseDoughLabel.setFont(new Font("Arial", Font.BOLD, 30));
         selectDough.add(chooseDoughLabel);
         chooseDoughLabel.setBounds(WIDTH/2-120,0 ,300,30);
         chooseDoughLabel.setBackground(new Color(0, 100, 0));
-        
-        
-    
-        ImageIcon thickIcon = new ImageIcon("img/Thick.PNG");
+            
+        ImageIcon thickIcon = new ImageIcon("img/thick.jpg");
         JButton thickButton = new JButton(thickIcon);
-        thickButton.setText("Thick dough");
-        thickButton.setForeground(Color.white);
 
-        ImageIcon thinIcon = new ImageIcon("img/Thin.PNG");
+        ImageIcon thinIcon = new ImageIcon("img/thin.jpg");
         JButton thinButton = new JButton(thinIcon);
-        thinButton.setText("Thin dough");
-        thinButton.setForeground(Color.white);
-
-        Color brownColor = new Color(100, 70, 29);
-        thickButton.setBackground(brownColor);
-        thinButton.setBackground(brownColor);
-
+    
         // // ActionListener "thick Dough"
         thickButton.addActionListener(e -> {
-            System.out.println("thick dough");
             selectTopping("Thick dough");
         });
 
         // // ActionListener "thin Dough"
         thinButton.addActionListener(e -> {
-            System.out.println("thin dough");
             selectTopping("Thin dough");
         });
 
@@ -167,9 +150,8 @@ public class game_cooking extends JFrame implements ActionListener {
         selectDough.add(buttonPanel);
         frame.revalidate();
         frame.repaint();
-        System.out.println("end hello");
-    }
 
+    }
 
     private void selectTopping(String doughType) {
         
@@ -205,12 +187,14 @@ public class game_cooking extends JFrame implements ActionListener {
         JToggleButton baconButton = new JToggleButton(new ImageIcon(baconImage));
         int topRow = cheeseButton.getY();
         int bottomRow = 250;
+
         cheeseButton.setBounds(0,topRow,250,250);
         pineappleButton.setBounds(cheeseButton.getWidth(),topRow,250,250);
         mushroomButton.setBounds(pineappleButton.getX()+250,topRow,250,250);
         hamButton.setBounds(0,bottomRow,250,250);
         seafoodButton.setBounds(250,bottomRow,250,250);
         baconButton.setBounds(500,bottomRow,250,250);
+        
         Color brownColor = new Color(100, 70, 29);
         cheeseButton.setBackground(brownColor);
         pineappleButton.setBackground(brownColor);
@@ -266,31 +250,13 @@ public class game_cooking extends JFrame implements ActionListener {
             frame.add(backgroundOrder);
             
             generateMenu.setText(Customer.generateMenu());    
-            // JScrollPane scrollPane = new JScrollPane(customerOrder);
-            // scrollPane.setAlignmentY(Component.CENTER_ALIGNMENT); 
-            // add(scrollPane, BorderLayout.CENTER);
-            // "Next" bttn
-
-            // JButton nextButton = new JButton("Next");
-            // nextButton.addActionListener(e -> {
-            //     selectDough();
-
-            // });
-            // nextButton.setBounds(0,552, WIDTH, 18);
-            // backgroundOrder.add(nextButton);
             frame.repaint();
         });
     }
 
     private void bakePizza(String dough, ArrayList<String> topping) {
-        System.out.println("inBake");
         if (!topping.isEmpty()) {
             frame.remove(emptyLabel);
-
-            
-            // JLabel bakePizzaLabel = new JLabel("Bake Pizza");
-            // bakePizzaLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            // add(bakePizzaLabel, BorderLayout.NORTH);
 
             ImageIcon bake = new ImageIcon("img/bakepizza.PNG");
             Image bakeImage = bake.getImage(); 
@@ -315,7 +281,7 @@ public class game_cooking extends JFrame implements ActionListener {
                 PizzaValidator pizzaValidator = new PizzaValidator(dough, topping, Customer.Menu_for_check());
                 if (!pizzaValidator.validatePizza()) {
                     JOptionPane.showMessageDialog(this, "Incorrect Pizza! Game Over!");
-                    System.exit(0); ;// Restart the game if pizza is incorrect
+                    System.exit(0); ;// close window
                     correctAns = 0; // reset correctAns = 0
                     
                 } else {
@@ -323,7 +289,6 @@ public class game_cooking extends JFrame implements ActionListener {
                     if (correctAns == 5) {
                         JOptionPane.showMessageDialog(this, "Congratulations! You got 3 star!");
                     } else {
-                        System.out.println("nextOrder");
                         frame.remove(label);
                         NextOrder(); // Generate next order
                         // selectDough(); // Call selectDough() to continue the process

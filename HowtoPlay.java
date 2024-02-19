@@ -33,11 +33,6 @@ public class HowtoPlay extends JFrame implements ActionListener {
                 label.setIcon(newMenuIcon); // update size JFrame
             }
         });
-        // Image menuImage = menu.getImage();
-        // Image newMenuImage = menuImage.getScaledInstance(600, 400, Image.SCALE_SMOOTH); 
-        // ImageIcon newMenuIcon = new ImageIcon(newMenuImage); 
-        // JLabel label = new JLabel(newMenuIcon); 
-        // this.add(label); 
 
         okButton = new JButton("OK");
         okButton.addActionListener(this);
@@ -47,8 +42,9 @@ public class HowtoPlay extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
-            // click OK for close this window
+            // click OK for close window
             this.dispose();
         }
     }
 }
+
